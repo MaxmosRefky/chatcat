@@ -5,7 +5,7 @@
     "fb": {
         "clientID": "1480930729363364",
         "clientSecret": "b354ecafd2d5b60e346c052f3545b207",
-        "callbackURL": "https://bbd2-79-10-195-55.ngrok-free.app/auth/facebook/callback",
+        "callbackURL": "https://ca6f-79-59-206-20.ngrok-free.app/auth/facebook/callback",
         "enableProof": true,
         "profileFields": ["id", "displayName", "photos"]
     },
@@ -20,7 +20,7 @@
         "clientType": "confidential",
         "clientID": "N0ZWdU1iUTNvYndiaWE3MmJ2WEQ6MTpjaQ",
         "clientSecret": "89uLpIGWodEe0m3Vd_ay-S3NJ0jXJqsXvZhTnmi7pYKy3Hj14p",
-        "callbackURL": "https://f84c-79-10-195-55.ngrok-free.app/auth/twitter/callback",
+        "callbackURL": "https://ca6f-79-59-206-20.ngrok-free.app/auth/twitter/callback",
         "enableProof": true,
         "profileFields": ["id", "displayName", "photos"]
     }
