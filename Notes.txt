@@ -1,0 +1,50 @@
+package.json file holds metadata about your app , such as list of dependencies, a refrence to the entry point or 
+the exact file that you want to run when you have to start your app , and it will be useful to deploy the app
+we creat this file by this command : npm init
+
+after you create a package.json file , you should declear the version of nodeJs used like this in the moment of deployment 
+use the host server deply your app in the same environment (you should put it after license):
+  "engines": {
+    "node": "19.0.0"
+  }
+
+  inside script in package.json file , we should declear the start command : "start": "node server.js"
+  in our case , we don't do reusible module , for this we can delete {"main": "index.js"} right now
+
+to install express : npm install express@<Version> --save --save-exact
+use this line {--save-exact} in the end of command to have the same version without deprication in the moment of deployment
+
+to install ejs : npm install ejs@<Version> --save --save-exact
+to install mongoose : npm install mongoose@<version> --save --save-exact
+to install express-session : npm install express-session@<version> --save --save-exact
+to insatll connect-mongo : npm install connect-mongo@<version> --save --save-exact
+to insatll passport : npm install passport@<version> --save --save-exact
+to install passport-facebook : npm install passport-facebook@<version> --save --save-exact
+to install passport-twitter : npm install passport-twitter@<version> --save --save-exact
+
+
+to access the database we use MongoDB driver module ,
+witch provides an interface from your NodeJS app to a MongoDB instance
+we will use Mongoose : is ODM object data mapper
+
+
+we install express-session because express have not built-in module to handl the session
+we install connect-mongo to connect express-session to our database
+
+HTTP stateless : it's mean that every request is treated as unique 
+and has no connectivity or relation to any prior request.
+
+passport : is an authentication enabler 
+OAuth : is an open authentication standrd 
+
+in development.json , you must call fb properties in that exact way :
+"fb": {
+        "clientID": "1480930729363364",
+        "clientSecret": "b354ecafd2d5b60e346c052f3545b207",
+        "callbackURL": "https://cc7f-151-35-137-107.ngrok-free.app/auth/facebook/callback",
+        "enableProof": true,
+        "profileFields": ["id", "displayName", "photos"]
+    }
+like this it maps dirctly to how passport need it to be
+"callbackURL": "https://cc7f-151-35-137-107.ngrok-free.app/auth/facebook/callback" : this URL facebook will use it to
+reach back to your app after the user authorization to take the authentication proccess forwaed 
