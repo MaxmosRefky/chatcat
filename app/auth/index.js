@@ -5,7 +5,7 @@ const h = require('../helpers')
 const FacebookStrategy = require('passport-facebook').Strategy;//this statment import the constructor function that internally
 //uses the passport OAuth two module to offer authentication and login functionality to your app
 //const GoogleStrategy = require("passport-google-oauth2").Strategy;
-const TwitterStrategy = require("@superfaceai/passport-twitter-oauth2").Strategy;
+const TwitterStrategy = require("passport-twitter").Strategy;
 
 module.exports = () => {//this anonymous function host all our authentication functions to be injected in our main app 
     passport.serializeUser((user, done) => {//this function will be invoked when our authorization process ends

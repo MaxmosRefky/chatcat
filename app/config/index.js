@@ -11,12 +11,6 @@ if(process.env.NODE_ENV === 'production'){
             callbackURL: process.env.host + "/auth/facebook/callback",
             profileFields: ['id','displayName','photos']
         },
-        gl: {
-            clientID: process.env.glClientID,
-            clientSecret: process.env.glClientSecret,
-            callbackURL: process.env.host + "/auth/google/callback",
-            profileFields: ['id','displayName','photos'] 
-        },
         twitter: {
             clientID: process.env.twClientID,
             clientSecret: process.env.twClientSecret,
