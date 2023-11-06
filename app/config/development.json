@@ -10,10 +10,9 @@
         "profileFields": ["id", "displayName", "photos"]
     },
     "twitter": {
-        "clientType": "confidential",
         "consumerKey": "N0ZWdU1iUTNvYndiaWE3MmJ2WEQ6MTpjaQ",
         "consumerSecret": "89uLpIGWodEe0m3Vd_ay-S3NJ0jXJqsXvZhTnmi7pYKy3Hj14p",
-        "callbackURL": "https://ca6f-79-59-206-20.ngrok-free.app/auth/twitter/callback",
+        "callbackURL": "https://a446-79-10-195-55.ngrok-free.app/auth/twitter/callback",
         "enableProof": true,
         "profileFields": ["id", "displayName", "photos"]
     }
