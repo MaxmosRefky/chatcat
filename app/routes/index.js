@@ -31,6 +31,11 @@ module.exports = ()=>{
             '/auth/twitter/callback': passport.authenticate('twitter', {
                 successRedirect: '/rooms',//if authentication succeed
                 failureRedirect:'/'//if authentication faild
+            }),
+            '/auth/google': passport.authenticate('google'),
+            '/auth/google/callback': passport.authenticate('google', {
+                successRedirect: '/rooms',//if authentication succeed
+                failureRedirect:'/'//if authentication faild
             })
             ,
             '/getsession': (req, res, next) => {
