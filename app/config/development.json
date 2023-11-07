@@ -5,14 +5,14 @@
     "fb": {
         "clientID": "1480930729363364",
         "clientSecret": "b354ecafd2d5b60e346c052f3545b207",
-        "callbackURL": "https://ca6f-79-59-206-20.ngrok-free.app/auth/facebook/callback",
+        "callbackURL": "https://d9a3-79-10-195-55.ngrok-free.app/auth/facebook/callback",
         "enableProof": true,
         "profileFields": ["id", "displayName", "photos"]
     },
     "twitter": {
-        "consumerKey": "N0ZWdU1iUTNvYndiaWE3MmJ2WEQ6MTpjaQ",
-        "consumerSecret": "89uLpIGWodEe0m3Vd_ay-S3NJ0jXJqsXvZhTnmi7pYKy3Hj14p",
-        "callbackURL": "https://a446-79-10-195-55.ngrok-free.app/auth/twitter/callback",
+        "consumerKey": "PoL4UwuzcX22UXRQTpT5qSQhl",
+        "consumerSecret": "5p7ruSgGHURezD7wIpLux79oMz52A1RgxIM0VaoFOgdjKrq4Qc",
+        "callbackURL": "https://d9a3-79-10-195-55.ngrok-free.app/auth/twitter/callback",
         "enableProof": true,
         "profileFields": ["id", "displayName", "photos"]
     }

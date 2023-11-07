@@ -31,7 +31,13 @@ module.exports = ()=>{
             '/auth/twitter/callback': passport.authenticate('twitter', {
                 successRedirect: '/rooms',//if authentication succeed
                 failureRedirect:'/'//if authentication faild
-            })
+            }),
+            '/logout': function(req, res, next) {
+                req.logout(function(err) {
+                  if (err) { return next(err); }
+                  res.redirect('/');
+                });
+              }
             ,
             '/getsession': (req, res, next) => {
                 res.send("My favourite color: " + req.session.favColor);
