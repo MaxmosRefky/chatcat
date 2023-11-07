@@ -36,7 +36,13 @@ module.exports = ()=>{
             '/auth/google/callback': passport.authenticate('google', {
                 successRedirect: '/rooms',//if authentication succeed
                 failureRedirect:'/'//if authentication faild
-            })
+            }),
+            '/logout': function(req, res, next) {
+                req.logout(function(err) {
+                  if (err) { return next(err); }
+                  res.redirect('/');
+                });
+              }
             ,
             '/getsession': (req, res, next) => {
                 res.send("My favourite color: " + req.session.favColor);
