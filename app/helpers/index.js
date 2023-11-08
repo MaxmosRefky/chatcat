@@ -64,11 +64,20 @@ let findById = id => {
     });
 }
 
+//a middleware that checks to see if the user is authenicated & logged in
+let isAuthenticated = (req, res, next) => {
+    if(req.isAuthenticated()){//req.isAuthenticated  provited by passport and return true if user indeed logged in
+        next();
+    }else{
+        res.redirect('/');
+    }
+} 
 
 module.exports = {
     route, //you can just use shorthand assignment instand of write :
     // route: route
     findOne,
     createNewUser,
-    findById
+    findById,
+    isAuthenticated
 }

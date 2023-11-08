@@ -19,6 +19,6 @@ app.use(passport.session());
 app.use('/', chatCat.router);//here we sending our routs to see if it's get or post or anything else, and see which
 //route we using after (/ , /info, /room, ....ecc)
 
-app.listen(app.get('port'), ()=>{
+chatCat.ioServer(app).listen(app.get('port'), ()=>{
     console.log('chatCat running on port ', app.get('port'));
 });

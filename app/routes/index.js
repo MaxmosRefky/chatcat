@@ -1,9 +1,9 @@
 'use strict';
 
 const router = require('express').Router();
-
 const passport = require('passport');
 const h = require('../helpers');
+const config = require('../config');
 
 //here our routers are decleared as key value pairs where 
 //the key is the route and the value is the route handler function 
@@ -14,14 +14,18 @@ module.exports = ()=>{
             '/': (req, res, next) => {
                 res.render('login');
             },
-            '/rooms': (req, res, next) => {
+            '/rooms': [h.isAuthenticated, (req, res, next) => {
                 res.render('rooms',{
-                    user: req.user
+                    user: req.user,
+                    host: config.host
                 });
-            },
-            '/chat': (req, res, next) => {
-                res.render('chatroom');
-            },
+            }],
+            '/chat': [h.isAuthenticated, (req, res, next) => {
+                res.render('chatroom',{
+                    user: req.user,
+                    host: config.host
+                });
+            }],
             '/auth/facebook': passport.authenticate('facebook'),
             '/auth/facebook/callback': passport.authenticate('facebook', {
                 successRedirect: '/rooms',//if authentication succeed
@@ -29,6 +33,11 @@ module.exports = ()=>{
             }),
             '/auth/twitter': passport.authenticate('twitter'),
             '/auth/twitter/callback': passport.authenticate('twitter', {
+                successRedirect: '/rooms',//if authentication succeed
+                failureRedirect:'/'//if authentication faild
+            }),
+            '/auth/google': passport.authenticate('google', {scope: ['email', 'profile']}),
+            '/auth/google/callback': passport.authenticate('google', {
                 successRedirect: '/rooms',//if authentication succeed
                 failureRedirect:'/'//if authentication faild
             }),

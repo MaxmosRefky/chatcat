@@ -3,10 +3,22 @@
 //Social Authentication Logic
 require('./auth')();
 
+// create an IO server instance
+let ioServer = app => {
+    app.locals.chatrooms = [];
+    const server = require('http').Server(app);
+    const io = require('socket.io')(server);
+    io.use((socket, next) => {
+        require('./session')(socket.request, {}, next)
+    });
+    require('./socket')(io,app);
+    return server;
+}
 
 module.exports = {
     router: require('./routes')(),
-    session: require('./session')
+    session: require('./session'),
+    ioServer
 }
 // const router = require('express').Router();//this is at the top of every sub 
 // //application that you create withen the umbrella of you core express application

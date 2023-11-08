@@ -6,6 +6,7 @@ const FacebookStrategy = require('passport-facebook').Strategy;//this statment i
 //uses the passport OAuth two module to offer authentication and login functionality to your app
 //const GoogleStrategy = require("passport-google-oauth2").Strategy;
 const TwitterStrategy = require("passport-twitter").Strategy;
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 module.exports = () => {//this anonymous function host all our authentication functions to be injected in our main app 
     passport.serializeUser((user, done) => {//this function will be invoked when our authorization process ends
@@ -39,6 +40,7 @@ module.exports = () => {//this anonymous function host all our authentication fu
     }
     passport.use(new FacebookStrategy(config.fb, authProcessor));
     passport.use(new TwitterStrategy(config.twitter, authProcessor));
+    passport.use(new GoogleStrategy(config.google, authProcessor));
     //FacebookStrategy require two things  :
     //1) configration providers access to the appID , appSecret, callbackURL
     // and optionally an array with the desired user data keys  ecc.......

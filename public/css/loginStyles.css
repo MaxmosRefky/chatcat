@@ -2,7 +2,7 @@
 .container {
 	position:absolute;
 	width: 350px;
-	height: 210px;
+	height: 310px;
 	border:1px solid black;
 	top:0;
 	bottom:0;
@@ -33,6 +33,7 @@
 .loginButton {
 	position: relative;
 	height: 150px;
+	width: 95%;
 }
 
 #loginBtnImg {
