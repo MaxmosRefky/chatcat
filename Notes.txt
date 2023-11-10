@@ -48,3 +48,12 @@ in development.json , you must call fb properties in that exact way :
 like this it maps dirctly to how passport need it to be
 "callbackURL": "https://cc7f-151-35-137-107.ngrok-free.app/auth/facebook/callback" : this URL facebook will use it to
 reach back to your app after the user authorization to take the authentication proccess forwaed 
+
+Socket.io enaable us to create a unified pipeline either using webSockets or long polling Ajax 
+between the client and the server 
+
+
+
+
+
+

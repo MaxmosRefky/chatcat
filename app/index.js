@@ -1,5 +1,8 @@
 'use strict';
 
+const session = require('./session');
+
+
 //Social Authentication Logic
 require('./auth')();
 
@@ -8,9 +11,10 @@ let ioServer = app => {
     app.locals.chatrooms = [];
     const server = require('http').Server(app);
     const io = require('socket.io')(server);
-    io.use((socket, next) => {
-        require('./session')(socket.request, {}, next)
-    });
+    // io.use((socket, next) => {
+    //     require('./session')(socket.request, {}, next);
+    // });
+    io.engine.use(session);
     require('./socket')(io,app);
     return server;
 }
