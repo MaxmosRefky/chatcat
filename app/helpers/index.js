@@ -4,6 +4,21 @@ const router = require('express').Router();
 const db = require('../db');
 const crypto = require('crypto');
 const session = require('../session');
+const axios = require('axios');
+const https = require('https');
+const { response } = require('express');
+const url = require('url');
+const { error } = require('console');
+//const database = Mongoose.db("test");
+//const chatusersCollection = db.userModel.collection("chatusers");
+//const options = { upsert: false };
+const generalPhoto = '/img/profilePic';
+var flag = false ;
+const updateDoc = {
+    $set: {
+      profilePic: `/img/profilePic`
+    },
+  };
 
 //if i understand correctly , what we doing here is , resgistring every router (end-point) and the handlers belong  into express,
 //like this when we call (require) this module , we will find all routes ready to use . 
@@ -54,6 +69,18 @@ let createNewUser = profile => {
     });
 }
 
+
+// let updatePicPhoto = (user) => {
+//     //let chatUser = findOne(id);
+//     https.get(user.profilePic, (response) => {
+//         if(response.statusCode === 200) {
+//          console.log('photo exist');
+//         }else{
+//          db.userModel.updateOne({profileId: user.profileId}, {updateDoc});
+//         }
+//      });
+// }
+
 let findById = id => {
     return new Promise((resolve, reject) => {
         db.userModel.findById(id, (error, user) => {
@@ -66,9 +93,15 @@ let findById = id => {
     });
 }
 
+
 //a middleware that checks to see if the user is authenicated & logged in
 let isAuthenticated = (req, res, next) => {
     if(req.isAuthenticated()){//req.isAuthenticated  provited by passport and return true if user indeed logged in
+        // getFlag(req.user.profilePic);
+        // console.log(flag);
+        // if(!flag){
+        //     req.user.profilePic = "/img/profilePic.jpg";
+        // }
         next();
     }else{
         res.redirect('/');
@@ -141,6 +174,58 @@ let addUserToRoom = (allrooms, data, socket) => {
     }
 }
 
+let removeUserFromRoom =(allrooms, socket) => {
+    for(let room of allrooms) {
+        //Find the user
+        let findUser = room.users.findIndex((element, index, array) => {
+            if(element.socketID === socket.id){
+                return true;
+            }else{
+                return false;
+            }
+        });
+        if(findUser> -1){
+            socket.leave(room.roomID);
+            room.users.splice(findUser, 1);
+            return room;
+        }
+    }
+}
+
+// async function getFlag(urlPic) {
+//     let picUrl = new url.URL(urlPic);
+//     try {
+//         const respo = await axios.get(picUrl);
+//       } catch (error) {
+//         console.error('v : ',error);
+//         flag = true;
+//       } finally{
+//         console.log('check pic done');
+//       }
+// }
+
+
+// let checkProfilePic1 = (urlPic) => {
+//     //let chatUser = findOne(id);
+//     let picUrl = new url.URL(urlPic);
+//     //let response = await axios.get(picUrl).
+//     let flag;
+    
+//     let axiosResponse = new axios.get(picUrl);
+//     console.log(axiosResponse);
+//     axiosResponse.then()
+// }
+
+// let checkProfilePic2 = (photoUrl) => {
+//     const response = axios.get(photoUrl);
+//     if(response.PromiseState  === '400'){
+//         return true;
+//     }else{
+//         return false;
+//     }
+// }
+
+
 module.exports = {
     route, //you can just use shorthand assignment instand of write :
     // route: route
@@ -151,5 +236,6 @@ module.exports = {
     findRoomByName,
     randomHex,
     findRoomById,
-    addUserToRoom
+    addUserToRoom,
+    removeUserFromRoom
 }

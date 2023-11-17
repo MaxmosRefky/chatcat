@@ -159,7 +159,7 @@
 	background-color: #FFFFFF;
 }
 
-input[name='userInput'] {
+/* input[name='userInput'] {
 	position:absolute;
 	padding: 24px;
 	font-size: 22px;
@@ -169,7 +169,7 @@ input[name='userInput'] {
 	outline: 0px;
 	left: 0px;
 	border: none;
-}
+} */
 
 .chatBlock {
 	position: relative;
@@ -229,14 +229,14 @@ input[name='userInput'] {
 
 .fileUploadBtn {
     position: absolute;
-    right: 14px;
     width: 43px;
+	right: 14px;
     overflow: hidden;
     top: 22px;
     height: 21px;
     outline: none;
     color: #FFF;
-    background: rgb(67, 202, 147);
+    background: rgb(0,255,0);
     padding: 10px;
     font-family: sans-serif;
     text-decoration: none;

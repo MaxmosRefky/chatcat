@@ -2,6 +2,7 @@
 
 const { connection } = require('mongoose');
 const h = require('../helpers');
+const { json } = require('express');
 
 module.exports = (io,app) => {
     let allrooms = app.locals.chatrooms;
@@ -32,15 +33,20 @@ module.exports = (io,app) => {
         //Join a chatroom
         socket.on('join', data => {
             let usersList = h.addUserToRoom(allrooms, data, socket);
-           // let allusers = usersList.users;
-            console.log('usersList : ' , usersList);
-            console.log('usersList.room : ' , usersList.room);
-            console.log('usersList.roomID : ' , usersList.roomID);
-            console.log('usersList.users : ' , usersList.users);
             //update the list of active users as shown on the chatroom page
             socket.broadcast.to(data.roomID).emit('updateUsersList', JSON.stringify(usersList.users));
             socket.emit('updateUsersList', JSON.stringify(usersList.users));
             //console.log('userlist: ',userlist);
+        });
+        //When a socket exits
+        socket.on('disconnect', () => {
+            // Find the room, to which the socket is connected to and purge the user
+            let room = h.removeUserFromRoom(allrooms, socket);
+            socket.broadcast.to(room.roomID).emit('updateUsersList', JSON.stringify(room.users));
+        });
+        // when a new message arrives
+        socket.on('newMessage', data => {
+            socket.to(data.roomID).emit('inMessage', JSON.stringify(data));
         });
     });
 

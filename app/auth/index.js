@@ -14,6 +14,7 @@ module.exports = () => {//this anonymous function host all our authentication fu
     });//be carful that is the unique ID that mongoDB give it to the user not the facebook id
 
     passport.deserializeUser((id, done) => {
+        //h.updatePicPhoto(id);
         //Find the user using the _id
         h.findById(id)
         .then(user => done(null, user))

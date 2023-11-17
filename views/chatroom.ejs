@@ -1,19 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
-	<title>ChatCat - <%= room %> </title>
+	<title>ChatCat - <%= room %>
+	</title>
 	<link rel="stylesheet" href="/css/chatroomStyles.css">
 	<script src="/js/jquery-2.1.4.min.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
+	<script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
 	<script>
 		'use strict';
 		$(() => {
-			let socket = io('<%= host %>'+'/chatter');
+			let host = '<%= host %>';
+			let socket = io('<%= host %>' + '/chatter');
 			let roomID = '<%= roomID %>';
 			let user = '<%= user.fullName %>';
 			let userPic = '<%= user.profilePic %>';
 			let chatUsers = $('.chatUsers');
+			let chatInput = $("input[name='userInput']");
+			let chatMessagesDiv = $('.chatMessages');
+			let filePicker = $('#uploadedPhoto');
+			let counter = 0;
+			var commonAncestor = document.body;
+			//let uploaded = '/upload/' + '<%= photoName %>';
+			//let photoPath = '<%= photoName %>';
+			//let template = '';
+			//let upload = $('#upload');
 
 			socket.on('connect', () => {
 				socket.emit('join', {
@@ -25,61 +38,184 @@
 
 			let userList = user => {
 				return `<div class="userBlock">
-							<div class="userPic"><img src="${user.userPic}" alt="John Doe"></div>
+							<div class="userPic"><img id="profileImg" src="${user.userPic}" alt="John Doe"></div>
 							<div class="cuserName">${user.user}</div>
 						</div>`;
 			}
 
+			let updateFeed = (userPic, message) => {
+				let template = `<div class="chatBlock" id="chatBlock${counter}">
+										<div class="userPic"><img src="${userPic}"></div>
+										<div id="chatMsg${counter}" class="chatMsg">${message}</div>
+								</div>`;
+				//console.log(refresh + counter);
+				$(template).hide().prependTo(chatMessagesDiv).slideDown(200);
+			}
+
+
+
 			socket.on('updateUsersList', data => {
 				let parsedData = JSON.parse(data);
 				let usersListData = '';
-				for(let user of parsedData) {
+				for (let user of parsedData) {
 					usersListData += userList(user);
 				}
 				chatUsers.html('').html(usersListData);
 			});
 
+			chatInput.on('keyup', function (evt) {
+				evt.preventDefault();
+				let messageFld = $(this);
+				if (evt.which === 13 && messageFld.val() !== '') {
+					socket.emit('newMessage', {
+						roomID,
+						user,
+						userPic,
+						message: messageFld.val()
+					});
+					//Update the local feed
+					updateFeed(userPic, messageFld.val());
+					messageFld.val('');
+				}
+			});
+
+			socket.on('inMessage', data => {
+				let parsedData = JSON.parse(data);
+				updateFeed(parsedData.userPic, parsedData.message);
+			})
 
 
+			let appendPhoto = () => {
+				counter++;
+				var file = document.getElementById('uploadedPhoto').files[0].name;
+				console.log('fileName : ', file);
+				//var fileName = name.files.item(0).name;
+				var filePath = "/img/upload/" + file;
+				console.log('picPath: ', filePath);
+				if (filePath !== null) {
+					let tmp = `	<div class="zizo" id="zizo">
+										<img src="${filePath}" width="200px" height="200px" />
+									</div>
+									<br>
+									<div class="photoBlock" id="photoBlock${counter}">
+											<img class="refresh" src="/img/refresh.png" width="20px" height="20px" />
+									</div>`;
+					socket.emit('newMessage', {
+						roomID,
+						user,
+						userPic,
+						message: tmp
+					});
+					updateFeed(userPic, tmp);
+				}
+			}
 
+			function handleClick() {
+				console.log('we should wait 3 sec');
+				// Wait for 3 seconds before invoking the function
+				setTimeout(appendPhoto, 3000);
+				
+			}
+
+			document.querySelector("input[name=upload]").addEventListener("click", function () {
+				//appendPhoto();
+				handleClick();
+				console.log('3 sec are finished');
+				// var img = $('#photoBlock'+counter).find('img')[0];
+				// console.log('imgEventClick : ', img)
+				// setTimeout(img.click(), 20000);
+			});
+
+			// let refreshPicNow = ()=>{
+			// commonAncestor.addEventListener('click', function (event) {
+			// 	if (event.target.classList.contains('refresh')) {
+			// 		console.log('inside refresh');
+			// 		var parentDiv = event.target.closest('div.chatMsg').id;
+			// 		console.log('parentDivId : ', parentDiv);
+			// 		var img = $('#'+parentDiv).find('img')[0];
+			// 		console.log('img : ', img.src);
+			// 		let photoSrc = img.src.replace(host,'');
+			// 		let srcWithSpaces = photoSrc.replaceAll('%20', ' ');
+			// 		console.log('photoSrc : ', srcWithSpaces);
+			// 		img.src = srcWithSpaces;
+			// 	}
+			// });
+			// }
+			commonAncestor.addEventListener('click', function (event) {
+				if (event.target.classList.contains('refresh')) {
+					console.log('inside refresh');
+					var parentDiv = event.target.closest('div.chatMsg').id;
+					console.log('parentDivId : ', parentDiv);
+					var img = $('#' + parentDiv).find('img')[0];
+					console.log('img : ', img.src);
+					//let photoSrc = img.src.replace(host,'');
+					let photoSrc = img.src;
+					let srcWithSpaces = photoSrc.replaceAll('%20', ' ');
+					console.log('photoSrc : ', srcWithSpaces);
+					//img.src = srcWithSpaces;
+					img.src = photoSrc;
+				}
+			});
 		});
+
+		$(() => {
+			let checkPic = () => {
+				var img = document.getElementById('profileImg');
+				img.addEventListener('error', function () {
+					// Image failed to load (404 or other error)
+					console.log('Image not found or error loading.');
+					img.src = "/img/profilePic.jpg";
+				});
+			}
+			checkPic();
+		})
+
 	</script>
 </head>
+
 <body>
 	<div class="container">
 		<div class="titlePanel">
-			<h1>ChatCAT | <%= room %> </h1>
+			<h1>ChatCAT | <%= room %>
+			</h1>
 		</div>
 		<div class="controls">
-			<div class="userPicHolder"><img src="<%=user.profilePic%>" alt="John Doe"></div>
-			<p class="userName"><%=user.fullName%></p>
+			<div class="userPicHolder"><img id="profileImg" src="<%=user.profilePic%>" alt="John Doe"></div>
+			<p class="userName">
+				<%=user.fullName%>
+			</p>
 			<a href="/rooms" id="roomsBtn">Rooms</a>
 			<a href="/logout" id="logOutBtn">Logout</a>
 		</div>
 		<div class="chatListDiv">
 			<div class="chatMessagesPanel">
 				<div class="chatMessages">
-				<!-- Loop this for chat messages -->
-				<div class="chatBlock">
-					<div class="userPic"><img src="/img/user.jpg"></div>
-					<div class="chatMsg">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti perferendis eius aut nesciunt necessitatibus ad nulla, qui sequi, id nam. Possimus odit aut nisi veritatis amet distinctio id officiis ipsam!</div>
-				</div>					
-				<!-- loop end -->
+					<!-- Loop this for chat messages -->
+
+					<!-- loop end -->
 				</div>
 				<div class="typePanel">
-					<input type="text" name="userInput" placeholder="Type here and press enter">
-					<a href="#" id="uploadFile" class="fileUploadBtn">Photo</a>
+					<form ref='uploadForm' id='uploadForm' action='/upload/<%= roomID %>' method='post'
+						encType="multipart/form-data">
+						<input id="uploadedPhoto" type="file" name="sampleFile" />
+						<input type='submit' value='Upload!' name="upload" />
+					</form>
+					<div>
+						<input type="text" name="userInput" placeholder="Type here and press enter">
+					</div>
+					<!-- <a href="#" id="uploadFile" class="fileUploadBtn">Photo</a> -->
 				</div>
 			</div>
 			<div class="chatUsers">
-			<!-- Loop this for chat users -->
+				<!-- Loop this for chat users -->
 				<div class="userBlock">
 					<div class="userPic"><img src="/img/user.jpg" alt="John Doe"></div>
 					<div class="cuserName">John Doe</div>
 				</div>
-			<!-- loop end -->
+				<!-- loop end -->
 			</div>
 		</div>
 	</div>
 </body>
+
 </html>

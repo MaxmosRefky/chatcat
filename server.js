@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const chatCat = require('./app');
 const passport = require('passport');
+const fileUpload = require('express-fileupload');
 
 app.set('port', process.env.PORT || 3000);
 app.use(express.static('public'));
@@ -12,6 +13,8 @@ app.use(chatCat.session);
 //initialize is a middelware function designed for integration with Express
 //it hooks ip passport to the request and response streams that Express provides access
 app.use(passport.initialize());
+
+app.use(fileUpload());
 
 //invoke the session middelware function of passport inside passport 
 app.use(passport.session());

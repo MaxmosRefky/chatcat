@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<title>ChatCat - Rooms</title>
@@ -8,14 +9,16 @@
 	<script src="/socket.io/socket.io.js"></script>
 	<script>
 		'use strict';
+
 		$(() => {
-			let socket = io('<%= host %>'+'/roomslist');
+			let socket = io('<%= host %>' + '/roomslist');
 			let newRoomInput = $("input[name='roomName']");
-			
+
+
 			let renderChatRooms = chatrooms => {
 				let roomsListDiv = $('#roomsListUL');
 				let listStr = '';
-				for(let cat of chatrooms) {
+				for (let cat of chatrooms) {
 					listStr += `<a href="/chat/${cat.roomID}"><li>${cat.room}</li></a>`
 				}
 				roomsListDiv.html('').append(listStr);
@@ -29,36 +32,50 @@
 			});
 
 			$('#createBtn').on('click', () => {
-				if(newRoomInput.val() !== '') {
-					socket.emit('createNewRoom', newRoomInput.val());
-					newRoomInput.val('');
-				}
-			});
-			//socket.on('connect', () => console.log('Connected to server!'));
+			if(newRoomInput.val() !== '') {
+				socket.emit('createNewRoom', newRoomInput.val());
+				newRoomInput.val('');
+			}
 		});
+
+		});
+
+		$(() => {
+			var img = document.getElementById('profileImg');
+			img.addEventListener('error', function () {
+				// Image failed to load (404 or other error)
+				console.log('Image not found or error loading.');
+				img.src = "/img/profilePic.jpg";
+			});
+		})
+
 	</script>
 </head>
+
 <body>
 	<div class="container">
 		<div class="titlePanel">
 			<h1>ChatCAT | Select or Create a Chatroom</h1>
 		</div>
 		<div class="controls">
-			<div class="userPicHolder"><img src="<%=user.profilePic%>" alt="<%=user.fullName%>"></div>
-			<p class="userName"><%=user.fullName%></p>
+			<div class="userPicHolder"><img id="profileImg" src="<%=user.profilePic%>" alt="<%=user.fullName%>"></div>
+			<p class="userName">
+				<%=user.fullName%>
+			</p>
 			<a href="/logout" id="logOutBtn">Logout</a>
 		</div>
 		<div class="controls">
 			<input type="text" name="roomName" placeholder="Create a new Chatroom">
-			<a href="#" id="createBtn">Create</a>
+			<a href="#" id="createBtn" name="createBtn">Create</a>
 		</div>
 		<div class="roomsListDiv">
 			<ul class="roomsList" id="roomsListUL">
-			<!-- Loop list items here -->
-				
-			<!-- Loop ends -->
+				<!-- Loop list items here -->
+
+				<!-- Loop ends -->
 			</ul>
 		</div>
 	</div>
 </body>
+
 </html>
