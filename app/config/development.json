@@ -1,25 +1,25 @@
 {
-    "host": "https://6d58-37-161-225-209.ngrok-free.app",
+    "host": "https://ea70-78-211-227-251.ngrok-free.app",
     "dbURI": "mongodb+srv://maxmosabdelsayed:w9NJSATJoALToL51@cluster0.eo0ctuo.mongodb.net/?retryWrites=true&w=majority",
     "sessionSecret": "catscanfly",
     "fb": {
         "clientID": "1480930729363364",
         "clientSecret": "b354ecafd2d5b60e346c052f3545b207",
-        "callbackURL": "https://6d58-37-161-225-209.ngrok-free.app/auth/facebook/callback",
+        "callbackURL": "https://ea70-78-211-227-251.ngrok-free.app/auth/facebook/callback",
         "enableProof": true,
         "profileFields": ["id", "displayName", "photos"]
     },
     "twitter": {
         "consumerKey": "PoL4UwuzcX22UXRQTpT5qSQhl",
         "consumerSecret": "5p7ruSgGHURezD7wIpLux79oMz52A1RgxIM0VaoFOgdjKrq4Qc",
-        "callbackURL": "https://6d58-37-161-225-209.ngrok-free.app/auth/twitter/callback",
+        "callbackURL": "https://ea70-78-211-227-251.ngrok-free.app/auth/twitter/callback",
         "enableProof": true,
         "profileFields": ["id", "displayName", "photos"]
     },
     "google": {
         "clientID": "129288521297-vodde1ubqffkcglni65o23amq54kch4r.apps.googleusercontent.com",
         "clientSecret": "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",
-        "callbackURL": "https://6d58-37-161-225-209.ngrok-free.app/auth/google/callback",
+        "callbackURL": "https://ea70-78-211-227-251.ngrok-free.app/auth/google/callback",
         "enableProof": true,
         "profileFields": ["id", "displayName", "photos"]
     }

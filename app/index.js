@@ -22,7 +22,8 @@ let ioServer = app => {
 module.exports = {
     router: require('./routes')(),
     session: require('./session'),
-    ioServer
+    ioServer,
+    logger: require('./logger')
 }
 // const router = require('express').Router();//this is at the top of every sub 
 // //application that you create withen the umbrella of you core express application

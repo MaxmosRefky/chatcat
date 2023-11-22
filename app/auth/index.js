@@ -1,6 +1,7 @@
 'use strict';
 const passport = require('passport');
 const config = require('../config');
+const logger = require('../logger');
 const h = require('../helpers')
 const FacebookStrategy = require('passport-facebook').Strategy;//this statment import the constructor function that internally
 //uses the passport OAuth two module to offer authentication and login functionality to your app
@@ -18,7 +19,7 @@ module.exports = () => {//this anonymous function host all our authentication fu
         //Find the user using the _id
         h.findById(id)
         .then(user => done(null, user))
-        .catch(error => console.log('Errore when deserializeUser new user'));
+        .catch(error => logger.log('error','Errore when deserializeUser new user '+ error));
     });
 
 
@@ -35,7 +36,7 @@ module.exports = () => {//this anonymous function host all our authentication fu
                 //we have to create user now and return  
                 h.createNewUser(profile)
                 .then(newChatUser => done(null, newChatUser)
-                .catch(error => console.log('Errore when creating new user')));
+                .catch(error => logger.log('error','Errore when creating new user'+ error)));
             }
         });
     }

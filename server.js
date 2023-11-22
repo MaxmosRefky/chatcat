@@ -14,10 +14,23 @@ app.use(chatCat.session);
 //it hooks ip passport to the request and response streams that Express provides access
 app.use(passport.initialize());
 
+
 app.use(fileUpload());
 
 //invoke the session middelware function of passport inside passport 
 app.use(passport.session());
+
+
+app.use(require('morgan')('combined', {
+    stream: {
+        wirte: message => {
+            //Write to logs
+            chatCat.logger.log('info', message)
+        }
+    }
+}))
+
+
 
 app.use('/', chatCat.router);//here we sending our routs to see if it's get or post or anything else, and see which
 //route we using after (/ , /info, /room, ....ecc)

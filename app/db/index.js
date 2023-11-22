@@ -1,11 +1,12 @@
 'use strict';
 const config = require('../config');
+const logger = require('../logger');
 const Mongoose = require('mongoose');
 
 Mongoose.connect(config.dbURI, { //connect mongoose to our dataBase
     useNewUrlParser: true},)
     .then(() => console.log("Connected successfully"))
-    .catch((error) => {console.error(error);});//Log an error if the connection fails
+    .catch((error) => {logger.log('error', 'Mongoose connection error ,'+ error)});//Log an error if the connection fails
 
 //different 2 ways to Log errors but it doesn't work : 
 // first :
