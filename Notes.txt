@@ -53,6 +53,16 @@ Socket.io enaable us to create a unified pipeline either using webSockets or lon
 between the client and the server 
 
 
+to deply on heroku :
+ - install heroku
+ - heroku login
+ - git init
+ - git add .
+ - git commit -m "ChatCat First Commit"
+ - heroku create
+ - change the name of of the app in heroku site and run this command : heroku git:remote -a chat-cat-bat-max
+
+
 
 
 
